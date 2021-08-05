@@ -1,19 +1,30 @@
 import { createClient } from 'oicq';
-import { config } from 'dotenv';
 import jsQr from 'jsqr';
 import Jimp from 'jimp';
 import QrCodeTerminal from 'qrcode-terminal';
 import path from 'path';
+import { EnvironmentConfigProvider } from './config';
+import { config } from 'dotenv';
+import { getLogger } from 'log4js';
+const configProvider = new EnvironmentConfigProvider();
 
-// load dotenv
+const logger = getLogger('main');
+
 config();
 
-// login
-const client = createClient(parseInt(process.env.MIRAI_WEBHOOKS_UIN || ''), {
+// 准备
+const client = createClient(configProvider.uin, {
   data_dir: path.resolve(process.cwd(), 'oicq-data'),
   platform: 5,
 });
 
+// 设备锁回调
+client.on('system.login.device', (event) => {
+  QrCodeTerminal.generate(event.url, { small: true }, console.log);
+  process.stdin.once('data', () => client.login());
+});
+
+// 二维码登陆回调
 client.on('system.login.qrcode', (data) => {
   Jimp.read(data.image).then((img) => {
     const qrcode = jsQr(new Uint8ClampedArray(img.bitmap.data), img.bitmap.width, img.bitmap.height);
@@ -25,8 +36,9 @@ client.on('system.login.qrcode', (data) => {
   process.stdin.once('data', () => client.login());
 });
 
+// 上线成功
 client.on('system.online', () => {
-  console.log("I'm online!");
+  logger.info("I'm online!");
 });
 
-client.login();
+client.login(configProvider.pwd || undefined);

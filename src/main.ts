@@ -8,11 +8,11 @@ const configProvider = new EnvironmentConfigProvider();
 config();
 
 async function main() {
-  const server = new WebServer(configProvider);
-  server.start();
-
   const bot = new MyBot(configProvider);
-  bot.start();
+  await bot.start();
+
+  const server = new WebServer(configProvider, bot);
+  server.start();
 }
 
 main().catch((err) => {

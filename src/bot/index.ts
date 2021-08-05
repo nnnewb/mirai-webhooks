@@ -33,12 +33,16 @@ export default class MyBot {
     });
 
     // 上线成功
-    this.client.on('system.online', () => {
+    this.client.once('system.online', () => {
       this.logger.info("I'm online!");
     });
   }
 
-  start(): void {
+  async start(): Promise<MyBot> {
     this.client.login(this.config.pwd || undefined);
+    return new Promise<MyBot>((resolve, reject) => {
+      this.client.once('system.online', () => resolve(this));
+      this.client.once('system.login.error', reject);
+    });
   }
 }

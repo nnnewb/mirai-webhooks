@@ -7,6 +7,10 @@ export interface ConfigProvider {
   data_dir: string | null;
   port: number;
   hostname: string;
+
+  administrator: number;
+  notify_groups: number[];
+  notify_users: number[];
 }
 
 export class ConfigError extends Error {}
@@ -38,5 +42,17 @@ export class EnvironmentConfigProvider implements ConfigProvider {
 
   public get hostname(): string {
     return process.env.MIRAI_WEBHOOKS_HOSTNAME ? process.env.MIRAI_WEBHOOKS_HOSTNAME : '0.0.0.0';
+  }
+
+  public get administrator(): number {
+    return 0; // todo
+  }
+
+  public get notify_groups(): number[] {
+    return []; // todo
+  }
+
+  public get notify_users(): number[] {
+    return []; // todo
   }
 }

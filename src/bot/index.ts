@@ -12,6 +12,7 @@ export default class MyBot {
   constructor(public readonly config: ConfigProvider) {
     this.client = createClient(config.uin, { platform: config.platform || undefined });
     this.logger = getLogger(`bot(${config.uin})`);
+    this.logger.level = 'debug';
 
     // 设备锁回调
     this.client.on('system.login.device', (event) => {
@@ -37,7 +38,7 @@ export default class MyBot {
     });
   }
 
-  async start(): Promise<void> {
+  start(): void {
     this.client.login(this.config.pwd || undefined);
   }
 }

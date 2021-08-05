@@ -11,6 +11,7 @@
   "author": "weak_ptr <weak_ptr@outlook.com>",
   "license": "MIT",
   "devDependencies": {
+    "@types/koa": "^2.13.4",
     "@types/node": "^16.4.12",
     "@typescript-eslint/eslint-plugin": "^4.29.0",
     "@typescript-eslint/parser": "^4.29.0",
@@ -25,6 +26,7 @@
     "dotenv": "^10.0.0",
     "jimp": "^0.16.1",
     "jsqr": "^1.4.0",
+    "koa": "^2.13.1",
     "log4js": "^6.3.0",
     "oicq": "^1.18.3",
     "qrcode-terminal": "^0.12.0"

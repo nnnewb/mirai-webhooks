@@ -5,6 +5,8 @@ export interface ConfigProvider {
   pwd: string | null;
   platform: number | null;
   data_dir: string | null;
+  port: number;
+  hostname: string;
 }
 
 export class ConfigError extends Error {}
@@ -28,5 +30,13 @@ export class EnvironmentConfigProvider implements ConfigProvider {
 
   public get data_dir(): string {
     return process.env.MIRAI_WEBHOOKS_DATA_DIR || path.resolve(process.cwd(), 'oicq-data');
+  }
+
+  public get port(): number {
+    return process.env.MIRAI_WEBHOOKS_PORT ? parseInt(process.env.MIRAI_WEBHOOKS_PORT) : 6543;
+  }
+
+  public get hostname(): string {
+    return process.env.MIRAI_WEBHOOKS_HOSTNAME ? process.env.MIRAI_WEBHOOKS_HOSTNAME : '0.0.0.0';
   }
 }

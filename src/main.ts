@@ -1,14 +1,18 @@
 import { EnvironmentConfigProvider } from './config';
 import { config } from 'dotenv';
 import MyBot from './bot';
-import { getLogger, Logger } from 'log4js';
+import { getLogger } from 'log4js';
+import WebServer from './web';
 const configProvider = new EnvironmentConfigProvider();
 
 config();
 
 async function main() {
+  const server = new WebServer(configProvider);
+  server.start();
+
   const bot = new MyBot(configProvider);
-  await bot.start();
+  bot.start();
 }
 
 main().catch((err) => {

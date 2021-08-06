@@ -18,7 +18,7 @@ MIRAI_WEBHOOKS_HOSTNAME=<监听地址> # 默认在 127.0.0.1 ，自己看情况�
 MIRAI_WEBHOOKS_ADMINISTRATOR=<管理员QQ号码> # 可以用命令管理机器人，你得先加机器人好友
 MIRAI_WEBHOOKS_NOTIFY_GROUPS=<通知群列表> # webhooks 要通知的群列表
 MIRAI_WEBHOOKS_NOTIFY_USERS=<通知人列表> # webhooks 要通知的人的列表，得先加机器人好友。
-MIRAI_WEBHOOKS_FRIEND_SECRET=<加好友的密钥> # 不设置时机器人默认通过所有好友请求
+MIRAI_WEBHOOKS_FRIEND_SECRET=<加好友的密钥> # 不设置时机器人默认拒绝所有好友请求
 MIRAI_WEBHOOKS_TEMPLATE_DIR=<通知消息模板目录> # 支持自定义通知消息模板，使用 mustache 模板引擎
 ```
 

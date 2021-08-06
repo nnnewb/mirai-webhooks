@@ -2,7 +2,14 @@ import { ConfigProvider } from '../config';
 import { getLogger, Logger } from 'log4js';
 import http from 'http';
 import createHandler from 'node-gitlab-webhook';
-import { EventData, GitLabHooks, Handler, MergeRequestEvent, PushEvent } from 'node-gitlab-webhook/interfaces';
+import {
+  EventData,
+  GitLabHooks,
+  Handler,
+  MergeRequestEvent,
+  PushEvent,
+  TagPushEvent,
+} from 'node-gitlab-webhook/interfaces';
 import MyBot from '../bot';
 import Mustache from 'mustache';
 import { readFile } from 'fs/promises';
@@ -21,9 +28,10 @@ export default class WebServer {
     this.handler.on('error', this.logger.error.bind(this.logger));
     this.handler.on('push', this.notify.bind(this));
     this.handler.on('merge_request', this.notify.bind(this));
+    this.handler.on('tag_push', this.notify.bind(this));
   }
 
-  private async notify(event: EventData<PushEvent | MergeRequestEvent>) {
+  private async notify(event: EventData<PushEvent | MergeRequestEvent | TagPushEvent>) {
     this.logger.info(`incoming webhook event: ${event.event}`);
 
     const tmpl = await readFile(path.resolve(this.config.template_dir, event.event + '.mustache'));

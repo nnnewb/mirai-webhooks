@@ -26,7 +26,7 @@ export default class WebServer {
   private async notify(event: EventData<PushEvent | MergeRequestEvent>) {
     this.logger.info(`incoming webhook event: ${event.event}`);
 
-    const tmpl = await readFile(path.resolve(this.config.template_dir, event.event));
+    const tmpl = await readFile(path.resolve(this.config.template_dir, event.event + '.mustache'));
     const msg = Mustache.render(tmpl.toString('utf-8'), { event });
 
     for (const user of this.config.notify_users) {

@@ -3,4 +3,6 @@
 
 {{{event.payload.user.username }}} <{{{ event.payload.user.email }}}> {{{ event.payload.object_attributes.action }}} 了合并请求
 
-点击链接查看或处理：{{{ event.payload.object_attributes.url }}}
+此合并请求被指派给 {{{ event.payload.object_attributes.assignee.name }}} ，请注意处理。
+
+点击链接查看该合并请求：{{{ event.payload.object_attributes.url }}}

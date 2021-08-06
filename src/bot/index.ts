@@ -1,4 +1,4 @@
-import { Client, createClient } from 'oicq';
+import { Client, createClient, MessageElem } from 'oicq';
 import { ConfigProvider } from '../config';
 import QrCodeTerminal from 'qrcode-terminal';
 import jsQr from 'jsqr';
@@ -44,5 +44,21 @@ export default class MyBot {
       this.client.once('system.online', () => resolve(this));
       this.client.once('system.login.error', reject);
     });
+  }
+
+  async sendPrivateMessage(
+    to: number,
+    msg: MessageElem | Iterable<MessageElem> | string,
+    auto_escape?: boolean
+  ): Promise<void> {
+    await this.client.sendPrivateMsg(to, msg, auto_escape);
+  }
+
+  async sendGroupMessage(
+    to: number,
+    msg: MessageElem | Iterable<MessageElem> | string,
+    auto_escape?: boolean
+  ): Promise<void> {
+    await this.client.sendGroupMsg(to, msg, auto_escape);
   }
 }

@@ -8,9 +8,12 @@ export interface ConfigProvider {
   port: number;
   hostname: string;
 
-  administrator: number;
+  administrator: number | null;
   notify_groups: number[];
   notify_users: number[];
+
+  friend_secret: string;
+  template_dir: string;
 }
 
 export class ConfigError extends Error {}
@@ -44,15 +47,33 @@ export class EnvironmentConfigProvider implements ConfigProvider {
     return process.env.MIRAI_WEBHOOKS_HOSTNAME ? process.env.MIRAI_WEBHOOKS_HOSTNAME : '0.0.0.0';
   }
 
-  public get administrator(): number {
-    return 0; // todo
+  public get administrator(): number | null {
+    return process.env.MIRAI_WEBHOOKS_ADMINISTRATOR ? parseInt(process.env.MIRAI_WEBHOOKS_ADMINISTRATOR) : null; // todo
   }
 
   public get notify_groups(): number[] {
-    return []; // todo
+    if (process.env.MIRAI_WEBHOOKS_NOTIFY_GROUPS) {
+      return process.env.MIRAI_WEBHOOKS_NOTIFY_GROUPS.split(',')
+        .map((value) => parseInt(value))
+        .filter((result) => result);
+    }
+    return [];
   }
 
   public get notify_users(): number[] {
-    return []; // todo
+    if (process.env.MIRAI_WEBHOOKS_NOTIFY_USERS) {
+      return process.env.MIRAI_WEBHOOKS_NOTIFY_USERS.split(',')
+        .map((value) => parseInt(value))
+        .filter((r) => r);
+    }
+    return [];
+  }
+
+  public get friend_secret(): string {
+    return process.env.MIRAI_WEBHOOKS_FRIEND_SECRET || '';
+  }
+
+  public get template_dir(): string {
+    return process.env.MIRAI_WEBHOOKS_TEMPLATE_DIR || path.resolve(__dirname, '../templates');
   }
 }

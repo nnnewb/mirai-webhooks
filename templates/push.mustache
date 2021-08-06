@@ -1,0 +1,7 @@
+有新的推送：{{ event.payload.repository.name }} 
+ref：{{ event.payload.ref }}
+推送人：{{ event.payload.user_username }} <{{ event.payload.user_email}}>
+新增 {{ event.payload.commits.length }} 个提交，最新提交如下
+
+{{ event.payload.commits.0.id }}
+{{ event.payload.commits.0.message }}

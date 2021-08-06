@@ -32,6 +32,16 @@ export default class MyBot {
       process.stdin.once('data', () => this.client.login());
     });
 
+    // 好友申请回调
+    this.client.on('request.friend.add', async (event) => {
+      this.logger.debug(`好友申请备注： ${event.comment}，需要匹配 ${this.config.friend_secret}`);
+
+      if (this.config.friend_secret && config.friend_secret === event.comment) {
+        await this.client.setFriendAddRequest(event.flag, true);
+      }
+      await this.client.setFriendAddRequest(event.flag, false);
+    });
+
     // 上线成功
     this.client.once('system.online', () => {
       this.logger.info("I'm online!");

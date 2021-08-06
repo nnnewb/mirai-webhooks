@@ -12,7 +12,6 @@
   "license": "MIT",
   "devDependencies": {
     "@types/koa": "^2.13.4",
-    "@types/mustache": "^4.1.2",
     "@types/node": "^16.4.12",
     "@typescript-eslint/eslint-plugin": "^4.29.0",
     "@typescript-eslint/parser": "^4.29.0",
@@ -25,11 +24,11 @@
   "dependencies": {
     "@types/qrcode-terminal": "^0.12.0",
     "dotenv": "^10.0.0",
+    "handlebars": "^4.7.7",
     "jimp": "^0.16.1",
     "jsqr": "^1.4.0",
     "koa": "^2.13.1",
     "log4js": "^6.3.0",
-    "mustache": "^4.2.0",
     "node-gitlab-webhook": "^1.0.6",
     "oicq": "^1.18.3",
     "qrcode-terminal": "^0.12.0"

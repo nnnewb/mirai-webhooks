@@ -11,7 +11,7 @@ import {
   TagPushEvent,
 } from 'node-gitlab-webhook/interfaces';
 import MyBot from '../bot';
-import Mustache from 'mustache';
+import Handlebars from 'handlebars';
 import { readFile } from 'fs/promises';
 import path from 'path';
 
@@ -34,8 +34,8 @@ export default class WebServer {
   private async notify(event: EventData<PushEvent | MergeRequestEvent | TagPushEvent>) {
     this.logger.info(`incoming webhook event: ${event.event}`);
 
-    const tmpl = await readFile(path.resolve(this.config.template_dir, event.event + '.mustache'));
-    const msg = Mustache.render(tmpl.toString('utf-8'), { event });
+    const tmpl = await readFile(path.resolve(this.config.template_dir, event.event + '.hbr'));
+    const msg = Handlebars.compile(tmpl)({ event });
 
     for (const user of this.config.notify_users) {
       await this.bot.sendPrivateMessage(user, msg);

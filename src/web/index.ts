@@ -2,7 +2,7 @@ import { ConfigProvider } from '../config';
 import { getLogger, Logger } from 'log4js';
 import http from 'http';
 import createHandler from 'node-gitlab-webhook';
-import { GitLabHooks, Handler } from 'node-gitlab-webhook/interfaces';
+import { EventData, GitLabHooks, Handler, MergeRequestEvent, PushEvent } from 'node-gitlab-webhook/interfaces';
 import MyBot from '../bot';
 import Mustache from 'mustache';
 import { readFile } from 'fs/promises';
@@ -19,20 +19,23 @@ export default class WebServer {
     // setup handler
     this.handler = createHandler({ path: '/webhook', secret: 'secret' });
     this.handler.on('error', this.logger.error.bind(this.logger));
-    this.handler.on('push', async (event) => {
-      const tmpl = await readFile(path.resolve(this.config.template_dir, 'push.mustache'));
-      const msg = Mustache.render(tmpl.toString('utf-8'), { event });
+    this.handler.on('push', this.notify.bind(this));
+    this.handler.on('merge_request', this.notify.bind(this));
+  }
 
-      this.logger.info(`${event.payload.user_username} pushed ${event.payload.repository.name}`);
+  private async notify(event: EventData<PushEvent | MergeRequestEvent>) {
+    this.logger.info(`incoming webhook event: ${event.event}`);
 
-      for (const user of this.config.notify_users) {
-        await this.bot.sendPrivateMessage(user, msg);
-      }
+    const tmpl = await readFile(path.resolve(this.config.template_dir, event.event));
+    const msg = Mustache.render(tmpl.toString('utf-8'), { event });
 
-      for (const grp of this.config.notify_groups) {
-        await this.bot.sendGroupMessage(grp, msg);
-      }
-    });
+    for (const user of this.config.notify_users) {
+      await this.bot.sendPrivateMessage(user, msg);
+    }
+
+    for (const grp of this.config.notify_groups) {
+      await this.bot.sendGroupMessage(grp, msg);
+    }
   }
 
   start(): void {

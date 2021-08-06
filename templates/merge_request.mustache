@@ -1,7 +1,7 @@
-合并请求更新：!{{event.payload.object_attributes.id}} {{ event.payload.object_attributes.title }}
+合并请求更新：{{ event.payload.object_attributes.title }}
 合并分支 {{{ event.payload.object_attributes.source_branch }}} => {{{ event.payload.object_attributes.target_branch }}}
 
-{{{event.payload.user.username }}} <{{{ event.payload.user.email }}}> {{{ event.payload.object_attributes.action }}} 了合并请求
+{{{event.payload.user.name }}} <{{{ event.payload.user.email }}}> {{{ event.payload.object_attributes.action }}} 了合并请求
 
 此合并请求被指派给 {{{ event.payload.object_attributes.assignee.name }}} ，请注意处理。
 

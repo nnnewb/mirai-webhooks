@@ -35,7 +35,7 @@ export default class WebServer {
     this.logger.info(`incoming webhook event: ${event.event}`);
 
     const tmpl = await readFile(path.resolve(this.config.template_dir, event.event + '.hbr'));
-    const msg = Handlebars.compile(tmpl)({ event });
+    const msg = Handlebars.compile(tmpl.toString('utf-8'))({ event });
 
     for (const user of this.config.notify_users) {
       await this.bot.sendPrivateMessage(user, msg);

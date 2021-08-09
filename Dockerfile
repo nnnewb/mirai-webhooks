@@ -3,4 +3,4 @@ RUN mkdir -p /app
 COPY . /app
 WORKDIR /app
 RUN npm i && npm run build
-CMD [ "npm", "run", "start" ]
+CMD [ "node", "dist/main.js" ]

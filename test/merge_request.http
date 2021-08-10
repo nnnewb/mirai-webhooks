@@ -5,6 +5,15 @@ Content-Type: application/json
 
 {
   "object_kind": "merge_request",
+  "assignees":[
+    {
+      "id": 1,
+      "name": "Administrator",
+      "username": "root",
+      "avatar_url": "http://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=40\u0026d=identicon",
+      "email": "admin@example.com"
+    }
+  ],
   "user": {
     "id": 1,
     "name": "Administrator",

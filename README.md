@@ -6,7 +6,9 @@
 
 - [x] Push 事件推送消息
 - [x] Merge Request 事件推送消息
-- [ ] Pipeline/Job 事件推送消息
+- [x] tag push 事件推送消息
+- [x] Pipeline 事件推送消息
+- [ ] Job 事件推送消息
 - [ ] Issue 事件推送消息
 - [ ] 初步 ChatOps 支持，通过消息创建 Issue、触发 Pipeline 等
 

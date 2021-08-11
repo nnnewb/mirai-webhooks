@@ -7,6 +7,7 @@ import {
   GitLabHooks,
   Handler,
   MergeRequestEvent,
+  PipelineEvent,
   PushEvent,
   TagPushEvent,
 } from 'node-gitlab-webhook/interfaces';
@@ -14,6 +15,10 @@ import MyBot from '../bot';
 import Handlebars from 'handlebars';
 import { readFile } from 'fs/promises';
 import path from 'path';
+
+Handlebars.registerHelper('ifEquals', function (this: any, arg1, arg2, options) {
+  return arg1 == arg2 ? options.fn(this) : options.inverse(this);
+});
 
 export default class WebServer {
   private logger: Logger;
@@ -29,9 +34,10 @@ export default class WebServer {
     this.handler.on('push', this.notify.bind(this));
     this.handler.on('merge_request', this.notify.bind(this));
     this.handler.on('tag_push', this.notify.bind(this));
+    this.handler.on('pipeline', this.notify.bind(this));
   }
 
-  private async notify(event: EventData<PushEvent | MergeRequestEvent | TagPushEvent>) {
+  private async notify(event: EventData<PushEvent | MergeRequestEvent | TagPushEvent | PipelineEvent>) {
     this.logger.info(`incoming webhook event: ${event.event}`);
 
     const tmpl = await readFile(path.resolve(this.config.template_dir, event.event + '.hbr'));

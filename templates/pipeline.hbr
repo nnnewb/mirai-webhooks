@@ -1,0 +1,8 @@
+流水线更新于分支：{{event.payload.object_attributes.ref}}
+来自于：{{event.payload.object_attributes.source}} 状态：{{event.payload.object_attributes.detailed_status}}
+流水线时间：{{event.payload.object_attributes.created_at}}~{{event.payload.object_attributes.finished_at}}
+历时 {{event.payload.object_attributes.duration}}秒
+
+{{#each event.payload.builds}}
+* ({{stage}}) {{name}}: {{status}} {{#ifEquals status "success"}}历时{{duration}}秒{{/ifEquals}}
+{{/each}}

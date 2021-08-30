@@ -13,12 +13,20 @@ export interface ConfigProvider {
   notify_users: number[];
 
   friend_secret: string | null;
+  agree_group_invite: boolean;
   template_dir: string;
 }
 
 export class ConfigError extends Error {}
 
 export class EnvironmentConfigProvider implements ConfigProvider {
+  get_env_boolean(name: string): boolean {
+    if (!process.env[name] || process.env[name]?.toLowerCase() === 'false') {
+      return false;
+    }
+    return true;
+  }
+
   get_env_number(name: string): number | null {
     const num = parseInt(process.env[name] as string);
     return isNaN(num) ? null : num;
@@ -94,5 +102,9 @@ export class EnvironmentConfigProvider implements ConfigProvider {
 
   public get template_dir(): string {
     return this.get_env_string_with_default('MIRAI_WEBHOOKS_TEMPLATE_DIR', path.resolve(__dirname, '../templates'));
+  }
+
+  public get agree_group_invite(): boolean {
+    return this.get_env_boolean('MIRAI_WEBHOOKS_AGREE_GROUP_INVITE');
   }
 }

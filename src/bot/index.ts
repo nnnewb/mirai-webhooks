@@ -42,6 +42,11 @@ export default class MyBot {
       await this.client.setFriendAddRequest(event.flag, false);
     });
 
+    // 群邀请
+    this.client.on('request.group.invite', async (event) => {
+      await this.client.setGroupAddRequest(event.flag, this.config.agree_group_invite);
+    });
+
     // 上线成功
     this.client.once('system.online', () => {
       this.logger.info("I'm online!");

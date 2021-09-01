@@ -1,0 +1,8 @@
+host: 0.0.0.0
+port: 6543
+logging:
+  level: debug
+notifiers:
+  - type: mqtt
+    config:
+      broker: ws://192.168.2.175:9001

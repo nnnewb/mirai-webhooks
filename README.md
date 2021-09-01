@@ -22,8 +22,6 @@
 
 推荐用 docker，省事。
 
-`.env` 可选，你要是用 docker-compose 部署的话把环境变量写到 `docker-compose.yml` 里也行。
-
 `oicq-data` 一定要持久化，自己写个 volume 还是绑定一个本地路径都可以，不持久化的话每次登陆都会生成随机配置，服务器会验证设备锁什么的，个人觉得风控风险比较大。
 
 ```bash
